@@ -29,6 +29,11 @@
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
+  <?php
+    $query = "SELECT * FROM setores";
+    $exe = mysqli_query($conexao, $query);
+    if(mysqli_num_rows($exe) > 0){
+  ?>
   <div class="container">
     <div class="section">
         <br><br>
@@ -40,7 +45,7 @@
             <form method="POST" action="php/processa-funcionario.php"class="col s12 center">
                 <div class="row">
                     <div class="input-field col s12 ">
-                        <input name="nome" id="first_name" type="text" class="validate">
+                        <input name="nome" id="first_name" type="text">
                         <label for="first_name">Nome do funcionário</label>
                     </div>
                 </div>
@@ -67,16 +72,22 @@
                         <select name="setor">
                             <option value="" disabled selected>Escolha o setor</option>
                             <?php 
-                                $query = "SELECT * FROM setores";
-                                $exe = mysqli_query($conexao, $query);
                                 while($listagem = mysqli_fetch_array($exe)){
-                                    echo "<option value='$listagem[id_setor]'>$listagem[nome]</option>";
+                                    echo "<option value='$listagem[id_setores]'>$listagem[nome_setor]</option>";
                                 }
                             ?>
                             <label>Setor</label>
                         </select>
                     </div>
                 </div>
+
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea  name="obs" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Observações</label>
+                  </div>
+              </div>
+
                 <div class="row center">
                     <button class="btn waves-effect waves-light" type="submit" name="action">Enviar
                         <i class="material-icons right">send</i>
@@ -86,7 +97,24 @@
         </div>
     </div>
   </div>
+  <?php 
+    }else{
+    ?>
+  <div class="section no-pad-bot">
+      <div class="container">
+        <br><br>
+        <h1 class="header center teal-text text-lighten-2">Nenhum setor cadastrado</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">Por favor, cadastre um setor para inserir um funcionário</h5>
+        </div>
+        <div class="row center">
+          <a href="setor.php" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Cadastrar setor</a>
+        </div>
+        <br><br>
 
+      </div>
+  </div>
+  <?php } ?>
   <footer class="page-footer teal">
     <div class="container">
       <div class="row">

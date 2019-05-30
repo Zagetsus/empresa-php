@@ -105,11 +105,11 @@
     <form class="col s12">
       <div class="row">
         <div class="input-field col s6">
-          <input id="first_name" type="text" class="validate">
+          <input id="first_name" type="text">
           <label for="first_name">Nome</label>
         </div>
         <div class="input-field col s6">
-          <input id="last_name" type="text" class="validate">
+          <input id="last_name" type="text">
           <label for="last_name">Sobrenome</label>
         </div>
       </div>

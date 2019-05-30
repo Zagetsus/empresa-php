@@ -29,61 +29,52 @@
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-
-  <?php 
-    $query = "SELECT id_funcionarios, nome_funcionario, data_nasc  FROM funcionarios";
-    $exe = mysqli_query($conexao, $query);
-    if(mysqli_num_rows($exe) > 0){
+  <?php
+     $id = $_GET['id'];
+     $query = "SELECT *  FROM funcionarios WHERE id_funcionarios = $id";
+     $exe = mysqli_query($conexao, $query);
+     $listagem = mysqli_fetch_array($exe);
   ?>
   <div class="container">
     <div class="section">
         <br><br>
-        <h1 class="header center teal-text text-lighten-2">listagem</h1>
+        <h1 class="header center teal-text text-lighten-2">Detalhes</h1>
         <div class="row center">
-          <h5 class="header col s12 light">Listagem de funcionários</h5>
+          <h5 class="header col s12 light">Detalhes do funcionário <?php echo $listagem['nome_funcionario'];?></h5>
         </div>
         <table class="highlight">
             <thead>
             <tr>
                 <th>Nome</th>
+                <th>Sexo</th>
                 <th>Data de nascimento</th>
+                <th>obs</th>
+                <th>Setor</th>
                 <th></th>
             </tr>
             </thead>
             <?php 
-              while($listagem = mysqli_fetch_array($exe)){
                 echo "<tbody>
-                  <tr>
-                      <td>$listagem[nome_funcionario]</td>
-                      <td>$listagem[data_nasc]</td>
-                      <td><a href='detalhes.php?id=$listagem[id_funcionarios]'>Detalhes</a></td>
-                  </tr>
+                    <tr>
+                        <td><input name='nome' value='$listagem[nome_funcionario]' style='border:0;' type='text'></td>
+                        <td><select name='sexo'>
+                          <option value='$listagem[sexo]' selected>$listagem[sexo]</option>
+                          <option value='m'>Masculino</option>
+                          <option value='f'>Feminino</option>
+                          <label>Sexo</label>
+                        </select></td>
+                        <td>$listagem[data_nasc]</td>
+                        <td>$listagem[observacoes]</td>
+                        <td>$listagem[id_setor]</td>
+                        <td><a class='waves-effect waves-light btn-small'>editar</a></td>
+                    </tr>
                 </tbody>";
-              }
             ?>
             
         </table>
     </div>
     <br/><br/>
   </div>
-  <?php 
-    }else{
-    ?>
-  <div class="section no-pad-bot">
-      <div class="container">
-        <br><br>
-        <h1 class="header center teal-text text-lighten-2">Nenhum funcionário cadastrado</h1>
-        <div class="row center">
-          <h5 class="header col s12 light">Para fazer a listagem é preciso que haja funcionários cadastrados</h5>
-        </div>
-        <div class="row center">
-          <a href="funcionario.php" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Cadastrar funcionário</a>
-        </div>
-        <br><br>
-
-      </div>
-  </div>
-  <?php } ?>
 
   <footer class="page-footer teal">
     <div class="container">
@@ -106,6 +97,17 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, options);
+    });
 
+    // Or with jQuery
+
+    $(document).ready(function(){
+        $('select').formSelect();
+    });
+  </script>
   </body>
 </html>

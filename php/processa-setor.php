@@ -14,7 +14,7 @@
             require_once 'conexao.php';
             $setor = $_POST['setor'];
             
-            $query = "INSERT INTO setores(nome) VALUES ('$setor')";
+            $query = "INSERT INTO setores(nome_setor) VALUES ('$setor')";
             $insere = mysqli_query($conexao,$query);
             if($insere == 1){
                 echo "<script>location.href = '../setor.php';</script>";

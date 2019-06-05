@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Empresa</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 </head>
+
 <body>
-  <?php require_once 'php/conexao.php';?>
+  <?php require_once 'php/conexao.php'; ?>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="index.php" class="brand-logo">Logo</a>
@@ -22,7 +24,7 @@
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
-      <li><a href="setor.php">Setor</a></li>
+        <li><a href="setor.php">Setor</a></li>
         <li><a href="funcionario.php">Funcionário</a></li>
         <li><a href="listagem.php">Listagem</a></li>
       </ul>
@@ -30,50 +32,99 @@
     </div>
   </nav>
   <?php
-     $id = $_GET['id'];
-     $query = "SELECT *  FROM funcionarios WHERE id_funcionarios = $id";
-     $exe = mysqli_query($conexao, $query);
-     $listagem = mysqli_fetch_array($exe);
+  $id = $_GET['id'];
+  $query = "SELECT f.nome_funcionario AS nome_funcionario, f.sexo AS sexo, f.data_nasc As data_nasc, f.observacoes As observacoes, s.nome_setor As nome_setor FROM funcionarios f
+     INNER JOIN setores s ON f.id_setor = s.id_setores WHERE id_funcionarios = $id";
+  $exe = mysqli_query($conexao, $query);
+  $listagem = mysqli_fetch_array($exe);
   ?>
   <div class="container">
     <div class="section">
-        <br><br>
-        <h1 class="header center teal-text text-lighten-2">Detalhes</h1>
-        <div class="row center">
-          <h5 class="header col s12 light">Detalhes do funcionário <?php echo $listagem['nome_funcionario'];?></h5>
-        </div>
-        <table class="highlight">
-            <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Sexo</th>
-                <th>Data de nascimento</th>
-                <th>obs</th>
-                <th>Setor</th>
-                <th></th>
-            </tr>
-            </thead>
-            <?php 
-                echo "<tbody>
-                    <tr>
-                        <td><input name='nome' value='$listagem[nome_funcionario]' style='border:0;' type='text'></td>
-                        <td><select name='sexo'>
-                          <option value='$listagem[sexo]' selected>$listagem[sexo]</option>
-                          <option value='m'>Masculino</option>
-                          <option value='f'>Feminino</option>
-                          <label>Sexo</label>
-                        </select></td>
-                        <td>$listagem[data_nasc]</td>
-                        <td>$listagem[observacoes]</td>
-                        <td>$listagem[id_setor]</td>
-                        <td><a class='waves-effect waves-light btn-small'>editar</a></td>
-                    </tr>
-                </tbody>";
-            ?>
-            
-        </table>
+      <br><br>
+      <h1 class="header center teal-text text-lighten-2">Detalhes</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Detalhes do funcionário <?php echo $listagem['nome_funcionario']; ?></h5>
+      </div>
+      <form method="POST" action="">
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Sexo</th>
+            <th>Data de nascimento</th>
+            <th>obs</th>
+            <th>Setor</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+        <?php
+        echo "<td><input name='nome' value='$listagem[nome_funcionario]' style='border:0;' type='text'></td>
+              <td style='width:100px'>
+                <select name='sexo'>
+                  <option value='$listagem[sexo]' selected>$listagem[sexo]</option>
+                  <option value='m'>Masculino</option>
+                  <option value='f'>Feminino</option>
+                  <label>Sexo</label>
+                </select>
+              </td>
+
+              <td style='width:120px'><input name='data' type='text' class='datepicker' value='$listagem[data_nasc]' style='border:0;'/></td>
+              <td><textarea name='obs' class='materialize-textarea' style='border:0;'>$listagem[observacoes]</textarea></td>
+
+              <td style='width:240px'>
+                <select name='setor'>";
+        $sql = "SELECT * FROM setores";
+        $exec = mysqli_query($conexao, $sql);
+        while ($ler = mysqli_fetch_array($exec)) {
+          if ($ler["nome_setor"] ==  $listagem["nome_setor"]){
+            echo "<option value='$ler[id_setores]' selected>$ler[nome_setor]</ option>";
+          }else{
+            echo "<option value='$ler[id_setores]'>$ler[nome_setor]</option>";
+          }          
+        }
+        echo "  </select>
+              </td>
+              <td><button class='btn-floating waves-effect waves-light' type='submit' name='editar'>
+                <i class='material-icons right'>edit</i>
+              </button></td>
+              <td><button class='btn-floating waves-effect waves-light' type='submit' name='excluir'>
+                <i class='material-icons right'>delete</i>
+              </button></td>";
+        ?>
+          </tr>
+        </tbody>
+      </table>
+      </form>
+      <?php
+        if(isset($_POST['editar'])){
+          $nome = $_POST['nome'];
+          $sexo = $_POST['sexo'];
+          $data = $_POST['data'];
+          $obs = $_POST['obs'];
+          $id_setor = $_POST['setor'];
+
+          $queryUpdate = "UPDATE funcionarios SET nome_funcionario = '$nome', sexo = '$sexo', data_nasc = '$data', observacoes = '$obs', id_setor = $id_setor WHERE id_funcionarios = $id";
+          $exeUpdate = mysqli_query($conexao, $queryUpdate);
+          if($exeUpdate == 1){
+            echo "<script>alert('Dados editados com sucesso');location.href = 'detalhes.php?id=$id';</script>";
+          }else{
+            echo "<script>alert('Erro ao editar');</script>";
+          }
+        }else if(isset($_POST['excluir'])){
+          $queryDelete = "DELETE FROM funcionarios WHERE id_funcionarios = $id";
+          $exeDelete = mysqli_query($conexao, $queryDelete);
+          if($exeDelete == 1){
+            echo "<script>alert('Dados excluidos com sucesso');location.href = 'listagem.php';</script>";
+          }else{
+            echo "<script>alert('Erro ao excluir');</script>";
+          }
+        }
+      ?>
     </div>
-    <br/><br/>
+    <br /><br />
   </div>
 
   <footer class="page-footer teal">
@@ -99,15 +150,29 @@
   <script src="js/init.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var elems = document.querySelectorAll('select');
-        var instances = M.FormSelect.init(elems, options);
+      var elems = document.querySelectorAll('.datepicker');
+      var instances = M.Datepicker.init(elems, options);
     });
 
     // Or with jQuery
 
-    $(document).ready(function(){
-        $('select').formSelect();
+    $(document).ready(function() {
+      $('.datepicker').datepicker();
     });
   </script>
-  </body>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems, options);
+    });
+
+    // Or with jQuery
+
+    $(document).ready(function() {
+      $('select').formSelect();
+    });
+  </script>
+</body>
+
 </html>

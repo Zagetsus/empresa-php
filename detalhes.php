@@ -46,7 +46,7 @@
         <h5 class="header col s12 light">Detalhes do funcionário <?php echo $listagem['nome_funcionario']; ?></h5>
       </div>
       <form method="POST" action="">
-      <table class="highlight">
+      <table class="highlight responsive-table">
         <thead>
           <tr>
             <th>Nome</th>
@@ -87,12 +87,14 @@
         }
         echo "  </select>
               </td>
-              <td><button class='btn-floating waves-effect waves-light' type='submit' name='editar'>
-                <i class='material-icons right'>edit</i>
-              </button></td>
-              <td><button class='btn-floating waves-effect waves-light' type='submit' name='excluir'>
-                <i class='material-icons right'>delete</i>
-              </button></td>";
+              <td>
+                <button class='btn-floating waves-effect waves-light' type='submit' name='editar'>
+                  <i class='material-icons right'>edit</i>
+                </button>
+                <button class='btn-floating waves-effect waves-light' type='submit' name='excluir'>
+                  <i class='material-icons right'>delete</i>
+                </button>
+              </td>";
         ?>
           </tr>
         </tbody>

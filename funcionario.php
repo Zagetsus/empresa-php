@@ -104,7 +104,7 @@
   ?>
     <div class="section no-pad-bot">
       <div class="container">
-        <br><br>
+        <br><br><br>
         <h1 class="header center teal-text text-lighten-2">Nenhum setor cadastrado</h1>
         <div class="row center">
           <h5 class="header col s12 light">Por favor, cadastre um setor para inserir um funcionário</h5>
@@ -112,7 +112,7 @@
         <div class="row center">
           <a href="setor.php" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Cadastrar setor</a>
         </div>
-        <br><br>
+        <br><br><br>
 
       </div>
     </div>

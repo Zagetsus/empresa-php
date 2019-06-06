@@ -71,7 +71,7 @@
     ?>
   <div class="section no-pad-bot">
       <div class="container">
-        <br><br>
+        <br><br><br>
         <h1 class="header center teal-text text-lighten-2">Nenhum funcionário cadastrado</h1>
         <div class="row center">
           <h5 class="header col s12 light">Para fazer a listagem é preciso que haja funcionários cadastrados</h5>
@@ -79,7 +79,7 @@
         <div class="row center">
           <a href="funcionario.php" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Cadastrar funcionário</a>
         </div>
-        <br><br>
+        <br><br><br>
 
       </div>
   </div>
